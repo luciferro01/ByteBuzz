@@ -7,6 +7,7 @@ import 'package:x_clone/constants/constants.dart';
 import 'package:x_clone/features/auth/controller/auth_controller.dart';
 import 'package:x_clone/features/auth/view/login_view.dart';
 import 'package:x_clone/features/auth/widgets/auth_field.dart';
+import 'package:x_clone/features/home/view/home_view.dart';
 import 'package:x_clone/theme/theme.dart';
 
 class SignUpView extends ConsumerStatefulWidget {
@@ -89,9 +90,10 @@ class _SignUpViewState extends ConsumerState<SignUpView> {
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
                                   Navigator.push(
-                                    context,
-                                    LoginView.route(),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginView()));
                                 },
                             ),
                           ],

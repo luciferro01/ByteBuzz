@@ -54,8 +54,13 @@ class AuthController extends StateNotifier<bool> {
         );
         final res2 = await _userAPI.saveUserData(userModel, r.$id);
         res2.fold((l) => showSnackBar(context, l.message), (r) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginView()));
+          _authAPI.logIn(email: email, password: password);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeView(),
+            ),
+          );
           showSnackBar(context, 'Accounted created successfully!');
         });
       },
