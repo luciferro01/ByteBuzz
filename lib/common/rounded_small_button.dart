@@ -20,6 +20,10 @@ class RoundedSmallButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Chip(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+        ),
+        padding: const EdgeInsets.all(0),
         label: Text(
           label,
           style: TextStyle(
