@@ -12,4 +12,6 @@ class UIConstants {
       centerTitle: true,
     );
   }
+
+  static const List<Widget> bottomTabBarPages = [];
 }

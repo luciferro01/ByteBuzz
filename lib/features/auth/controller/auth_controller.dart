@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/apis/auth_api.dart';
 import 'package:x_clone/apis/user_api.dart';
 import 'package:x_clone/core/utils.dart';
-import 'package:x_clone/features/auth/view/login_view.dart';
 import 'package:x_clone/features/home/view/home_view.dart';
 import 'package:x_clone/models/user_model.dart';
 

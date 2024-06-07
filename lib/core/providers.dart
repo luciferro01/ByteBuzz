@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/constants/appwrite_constants.dart';
 
 final appwriteClientProvider = Provider((ref) {
-  Client client = Client();
+  final Client client = Client();
   return client
       .setEndpoint(AppwriteConstants.endPoint)
       .setProject(AppwriteConstants.projectId)

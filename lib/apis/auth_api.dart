@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 
 import 'package:x_clone/core/core.dart';
-import 'package:x_clone/core/providers.dart';
 
 final authAPIProvider = Provider<AuthAPI>((ref) {
   final account = ref.watch(appwriteAccountProvider);
