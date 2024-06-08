@@ -34,7 +34,7 @@ class UserAPI extends IuserAPI {
           data: userModel.toMap());
 
       final user = res.toMap();
-      return right(user.toString());
+      return right(user);
     } on AppwriteException catch (e, st) {
       return left(
         Failure(

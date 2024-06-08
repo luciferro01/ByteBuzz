@@ -35,9 +35,12 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _page == 0 ? appBar : null,
-      body: IndexedStack(
-        index: _page,
-        children: UIConstants.bottomTabBarPages,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0).copyWith(bottom: 0),
+        child: IndexedStack(
+          index: _page,
+          children: UIConstants.bottomTabBarPages,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onCreateTweet,
