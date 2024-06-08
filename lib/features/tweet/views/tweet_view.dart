@@ -8,6 +8,7 @@ import 'package:x_clone/common/common.dart';
 import 'package:x_clone/constants/assets_constants.dart';
 import 'package:x_clone/core/core.dart';
 import 'package:x_clone/features/auth/controller/auth_controller.dart';
+import 'package:x_clone/features/tweet/controller/tweet_controller.dart';
 import 'package:x_clone/theme/pallete.dart';
 
 class CreateTweetScreen extends ConsumerStatefulWidget {
@@ -29,6 +30,11 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
   }
 
   void shareTweet() {
+    ref.read(tweetControllerProvider.notifier).shareTweet(
+          images: images,
+          text: tweetTextController.text,
+          context: context,
+        );
     Navigator.pop(context);
   }
 
