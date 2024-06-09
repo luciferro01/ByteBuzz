@@ -62,15 +62,13 @@ class TweetController extends StateNotifier<bool> {
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     final imageLinks = await _storageAPI.uploadImage(images);
-    debugPrint(images[0].path);
-
     Tweet tweet = Tweet(
       text: text,
       hashtags: hashtags,
       link: link,
       imageLinks: imageLinks,
       uid: user.uid,
-      tweetType: TweetType.text,
+      tweetType: TweetType.image,
       tweetedAt: DateTime.now(),
       likes: const [],
       commentIds: const [],
