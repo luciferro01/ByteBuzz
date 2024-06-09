@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/apis/storage_api.dart';
@@ -69,6 +70,8 @@ class TweetController extends StateNotifier<bool> {
     final user = _ref.read(currentUserDetailsProvider).value!;
     final imageLinks = await _storageAPI.uploadImage(images);
     Tweet tweet = Tweet(
+      repliedTo: '',
+      retweetedBy: '',
       text: text,
       hashtags: hashtags,
       link: link,
@@ -96,6 +99,8 @@ class TweetController extends StateNotifier<bool> {
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     Tweet tweet = Tweet(
+      repliedTo: '',
+      retweetedBy: '',
       text: text,
       hashtags: hashtags,
       link: link,
@@ -126,6 +131,43 @@ class TweetController extends StateNotifier<bool> {
     tweet = tweet.copyWith(likes: likes);
     final res = await _tweetAPI.likeTweet(tweet);
     res.fold((l) => null, (r) => null);
+  }
+
+  void reshareTweet(
+    Tweet tweet,
+    UserModel currentUser,
+    BuildContext context,
+  ) async {
+    tweet = tweet.copyWith(
+      retweetedBy: currentUser.name,
+      reshareCount: tweet.reshareCount + 1,
+    );
+    final res = await _tweetAPI.updateReshareCount(tweet);
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) async {
+        tweet = tweet.copyWith(
+          id: ID.unique(),
+          reshareCount: 0,
+          likes: [],
+          commentIds: [],
+          tweetedAt: DateTime.now(),
+        );
+        final res2 = await _tweetAPI.shareTweet(tweet);
+        res2.fold(
+          (l) => showSnackBar(context, l.message),
+          (r) {
+            // _notificationController.createNotification(
+            //   text: '${currentUser.name} reshared your tweet!',
+            //   postId: tweet.id,
+            //   notificationType: NotificationType.retweet,
+            //   uid: tweet.uid,
+            // );
+            showSnackBar(context, 'Retweeted!');
+          },
+        );
+      },
+    );
   }
 
   String _getLinkFromText(String text) {
