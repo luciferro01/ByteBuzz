@@ -7,6 +7,7 @@ import 'package:x_clone/apis/tweet_api.dart';
 import 'package:x_clone/core/core.dart';
 import 'package:x_clone/features/auth/controller/auth_controller.dart';
 import 'package:x_clone/models/tweet_model.dart';
+import 'package:x_clone/models/user_model.dart';
 
 final tweetControllerProvider = StateNotifierProvider((ref) {
   return TweetController(
@@ -111,6 +112,20 @@ class TweetController extends StateNotifier<bool> {
     final res = await _tweetAPI.shareTweet(tweet);
     res.fold((l) => showSnackBar(context, l.message), (r) {});
     state = false;
+  }
+
+  void likeTweet(Tweet tweet, UserModel user) async {
+    List<String> likes = tweet.likes;
+
+    if (tweet.likes.contains(user.uid)) {
+      likes.remove(user.uid);
+    } else {
+      likes.add(user.uid);
+    }
+
+    tweet = tweet.copyWith(likes: likes);
+    final res = await _tweetAPI.likeTweet(tweet);
+    res.fold((l) => null, (r) => null);
   }
 
   String _getLinkFromText(String text) {
