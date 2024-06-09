@@ -19,6 +19,9 @@ dependencies:
   fpdart: ^1.1.0
   image_picker: ^1.1.2
   carousel_slider: ^4.2.1
+  timeago: ^3.6.1
+  like_button: ^2.0.5
+  any_link_preview: ^3.0.2
 
 dev_dependencies:
   flutter_test:
