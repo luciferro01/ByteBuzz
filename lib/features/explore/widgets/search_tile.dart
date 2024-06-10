@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:x_clone/features/user_profile/view/user_profile_view.dart';
 import 'package:x_clone/models/user_model.dart';
 import 'package:x_clone/theme/pallete.dart';
 
@@ -13,10 +14,9 @@ class SearchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   UserProfileView.route(userModel),
-        // );
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => UserProfileView(userModel),
+        ));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(userModel.profilePic),

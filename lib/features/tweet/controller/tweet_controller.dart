@@ -68,7 +68,7 @@ class TweetController extends StateNotifier<bool> {
     if (text.isEmpty) {
       showSnackBar(context, "Please enter the text");
       return;
-    } else if (images.isEmpty && text.isNotEmpty) {
+    } else if (images.isEmpty) {
       _shareTextTweet(
         replyingTo: replyingTo,
         text: text,
