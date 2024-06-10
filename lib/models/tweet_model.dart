@@ -17,6 +17,7 @@ class Tweet {
   final int reshareCount;
   final String retweetedBy;
   final String repliedTo;
+  final String replyingTo;
   const Tweet({
     required this.text,
     required this.hashtags,
@@ -31,6 +32,7 @@ class Tweet {
     required this.reshareCount,
     required this.retweetedBy,
     required this.repliedTo,
+    required this.replyingTo,
   });
 
   Tweet copyWith({
@@ -47,6 +49,7 @@ class Tweet {
     int? reshareCount,
     String? retweetedBy,
     String? repliedTo,
+    String? replyingTo,
   }) {
     return Tweet(
       text: text ?? this.text,
@@ -62,6 +65,7 @@ class Tweet {
       reshareCount: reshareCount ?? this.reshareCount,
       retweetedBy: retweetedBy ?? this.retweetedBy,
       repliedTo: repliedTo ?? this.repliedTo,
+      replyingTo: replyingTo ?? this.replyingTo,
     );
   }
 
@@ -80,6 +84,7 @@ class Tweet {
     result.addAll({'reshareCount': reshareCount});
     result.addAll({'retweetedBy': retweetedBy});
     result.addAll({'repliedTo': repliedTo});
+    result.addAll({'replyingTo': replyingTo});
 
     return result;
   }
@@ -99,12 +104,13 @@ class Tweet {
       reshareCount: map['reshareCount']?.toInt() ?? 0,
       retweetedBy: map['retweetedBy'] ?? '',
       repliedTo: map['repliedTo'] ?? '',
+      replyingTo: map['replyingTo'] ?? '',
     );
   }
 
   @override
   String toString() {
-    return 'Tweet(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, tweetType: $tweetType, tweetedAt: $tweetedAt, likes: $likes, commentIds: $commentIds, id: $id, reshareCount: $reshareCount, retweetedBy: $retweetedBy, repliedTo: $repliedTo)';
+    return 'Tweet(text: $text, hashtags: $hashtags, link: $link, imageLinks: $imageLinks, uid: $uid, tweetType: $tweetType, tweetedAt: $tweetedAt, likes: $likes, commentIds: $commentIds, id: $id, reshareCount: $reshareCount, retweetedBy: $retweetedBy, repliedTo: $repliedTo, replyingTo: $replyingTo")';
   }
 
   @override
@@ -116,6 +122,7 @@ class Tweet {
         listEquals(other.hashtags, hashtags) &&
         other.link == link &&
         listEquals(other.imageLinks, imageLinks) &&
+        other.replyingTo == replyingTo &&
         other.uid == uid &&
         other.tweetType == tweetType &&
         other.tweetedAt == tweetedAt &&
@@ -141,6 +148,7 @@ class Tweet {
         id.hashCode ^
         reshareCount.hashCode ^
         retweetedBy.hashCode ^
+        replyingTo.hashCode ^
         repliedTo.hashCode;
   }
 }

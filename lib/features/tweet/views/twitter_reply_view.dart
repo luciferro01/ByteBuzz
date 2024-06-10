@@ -117,12 +117,13 @@ class _TwiterReplyScreenState extends ConsumerState<TwitterReplyScreen> {
             controller: _submitController,
             onSubmitted: (value) {
               ref.read(tweetControllerProvider.notifier).shareTweet(
-                images: [],
-                text: _submitController.text,
-                context: context,
-                repliedTo: widget.tweet.id,
-                repliedToUserId: widget.tweet.uid,
-              );
+                    replyingTo: widget.tweet.id,
+                    images: [],
+                    text: _submitController.text,
+                    context: context,
+                    repliedTo: widget.tweet.uid,
+                    repliedToUserId: widget.tweet.uid,
+                  );
               _submitController.text = '';
             },
             decoration: InputDecoration(
@@ -134,6 +135,7 @@ class _TwiterReplyScreenState extends ConsumerState<TwitterReplyScreen> {
                     context: context,
                     repliedTo: widget.tweet.id,
                     repliedToUserId: widget.tweet.uid,
+                    replyingTo: widget.tweet.uid,
                   );
                   _submitController.text = '';
                   FocusScope.of(context).unfocus();

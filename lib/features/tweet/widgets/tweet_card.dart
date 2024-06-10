@@ -160,6 +160,36 @@ class TweetCard extends ConsumerWidget {
                                 //         ),
                                 //         loading: () => const SizedBox(),
                                 //       ),
+                                if (tweet.repliedTo.isNotEmpty)
+                                  ref
+                                      .watch(
+                                          userDetailsProvider(tweet.replyingTo))
+                                      .when(
+                                        data: (userData) {
+                                          return RichText(
+                                            text: TextSpan(
+                                              text: 'Replying to',
+                                              style: const TextStyle(
+                                                color: Pallete.greyColor,
+                                                fontSize: 16,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: ' @${userData.name}',
+                                                  style: const TextStyle(
+                                                    color: Pallete.blueColor,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        error: (error, st) => ErrorText(
+                                          error: error.toString(),
+                                        ),
+                                        loading: () => const SizedBox(),
+                                      ),
 
                                 HashtagText(text: tweet.text),
                                 if (tweet.tweetType == TweetType.image)

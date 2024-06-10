@@ -15,9 +15,18 @@ class TweetList extends ConsumerWidget {
           data: (tweets) {
             return ref.watch(getLatestTweetProvider).when(
                   data: (data) {
-                    if (data.events.contains(
-                      'databases.*.collections.${AppwriteConstants.tweetsCollection}.documents.*.create',
-                    )) {
+                    bool isTweetAlreadyExist = false;
+                    final latestTweet = Tweet.fromMap(data.payload);
+                    for (Tweet tweetModel in tweets) {
+                      if (tweetModel.id == latestTweet.id) {
+                        isTweetAlreadyExist = true;
+                        break;
+                      }
+                    }
+                    if (!isTweetAlreadyExist &&
+                        data.events.contains(
+                          'databases.*.collections.${AppwriteConstants.tweetsCollection}.documents.*.create',
+                        )) {
                       tweets.insert(0, Tweet.fromMap(data.payload));
                     } else if (data.events.contains(
                       'databases.*.collections.${AppwriteConstants.tweetsCollection}.documents.*.update',

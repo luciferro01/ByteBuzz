@@ -63,12 +63,14 @@ class TweetController extends StateNotifier<bool> {
     required BuildContext context,
     required String repliedTo,
     required String repliedToUserId,
+    required String replyingTo,
   }) {
     if (text.isEmpty) {
       showSnackBar(context, "Please enter the text");
       return;
     } else if (images.isEmpty && text.isNotEmpty) {
       _shareTextTweet(
+        replyingTo: replyingTo,
         text: text,
         context: context,
         repliedTo: repliedTo,
@@ -76,6 +78,7 @@ class TweetController extends StateNotifier<bool> {
       );
     } else {
       _shareImageTweet(
+        replyingTo: replyingTo,
         text: text,
         images: images,
         context: context,
@@ -91,6 +94,7 @@ class TweetController extends StateNotifier<bool> {
     required BuildContext context,
     required String repliedTo,
     required String repliedToUserId,
+    required String replyingTo,
   }) async {
     state = true;
     final hashtags = _getHashtagsFromText(text);
@@ -98,6 +102,7 @@ class TweetController extends StateNotifier<bool> {
     final user = _ref.read(currentUserDetailsProvider).value!;
     final imageLinks = await _storageAPI.uploadImage(images);
     Tweet tweet = Tweet(
+      replyingTo: replyingTo,
       repliedTo: repliedTo,
       retweetedBy: '',
       text: text,
@@ -123,12 +128,14 @@ class TweetController extends StateNotifier<bool> {
     required BuildContext context,
     required String repliedTo,
     required String repliedToUserId,
+    required String replyingTo,
   }) async {
     state = true;
     final hashtags = _getHashtagsFromText(text);
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     Tweet tweet = Tweet(
+      replyingTo: replyingTo,
       repliedTo: repliedTo,
       retweetedBy: '',
       text: text,
