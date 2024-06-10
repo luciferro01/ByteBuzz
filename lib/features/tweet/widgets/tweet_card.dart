@@ -8,6 +8,7 @@ import 'package:x_clone/constants/assets_constants.dart';
 import 'package:x_clone/core/core.dart';
 import 'package:x_clone/features/auth/controller/auth_controller.dart';
 import 'package:x_clone/features/tweet/controller/tweet_controller.dart';
+import 'package:x_clone/features/tweet/views/twitter_reply_view.dart';
 import 'package:x_clone/features/tweet/widgets/carousel_image.dart';
 import 'package:x_clone/features/tweet/widgets/hashtag_text.dart';
 import 'package:x_clone/features/tweet/widgets/tweet_icon_button.dart';
@@ -32,10 +33,14 @@ class TweetCard extends ConsumerWidget {
               data: (user) {
                 return GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   TwitterReplyScreen.route(tweet),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TwitterReplyScreen(
+                          tweet: tweet,
+                        ),
+                      ),
+                    );
                   },
                   child: Column(
                     children: [

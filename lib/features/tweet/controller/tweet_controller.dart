@@ -27,6 +27,11 @@ final getLatestTweetProvider = StreamProvider((ref) {
   return tweetAPI.getLatestTweet();
 });
 
+final getRepliesToTweetsProvider = FutureProvider.family((ref, Tweet tweet) {
+  final tweetController = ref.watch(tweetControllerProvider.notifier);
+  return tweetController.getRepliesToTweet(tweet);
+});
+
 class TweetController extends StateNotifier<bool> {
   final TweetAPI _tweetAPI;
   final StorageAPI _storageAPI;
@@ -46,31 +51,54 @@ class TweetController extends StateNotifier<bool> {
     return tweetList.map((tweet) => Tweet.fromMap(tweet.data)).toList();
   }
 
-  void shareTweet(
-      {required String text,
-      required List<File> images,
-      required BuildContext context}) {
+  //Get Replies to Tweets
+  Future<List<Tweet>> getRepliesToTweet(Tweet tweet) async {
+    final documents = await _tweetAPI.getRepliesToTweet(tweet);
+    return documents.map((tweet) => Tweet.fromMap(tweet.data)).toList();
+  }
+
+  void shareTweet({
+    required String text,
+    required List<File> images,
+    required BuildContext context,
+    required String repliedTo,
+    required String repliedToUserId,
+  }) {
     if (text.isEmpty) {
       showSnackBar(context, "Please enter the text");
-    }
-    if (images.isEmpty) {
-      _shareTextTweet(text: text, context: context);
+      return;
+    } else if (images.isEmpty && text.isNotEmpty) {
+      _shareTextTweet(
+        text: text,
+        context: context,
+        repliedTo: repliedTo,
+        repliedToUserId: repliedToUserId,
+      );
     } else {
-      _shareImageTweet(text: text, images: images, context: context);
+      _shareImageTweet(
+        text: text,
+        images: images,
+        context: context,
+        repliedTo: repliedTo,
+        repliedToUserId: repliedToUserId,
+      );
     }
   }
 
-  void _shareImageTweet(
-      {required String text,
-      required List<File> images,
-      required BuildContext context}) async {
+  void _shareImageTweet({
+    required String text,
+    required List<File> images,
+    required BuildContext context,
+    required String repliedTo,
+    required String repliedToUserId,
+  }) async {
     state = true;
     final hashtags = _getHashtagsFromText(text);
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     final imageLinks = await _storageAPI.uploadImage(images);
     Tweet tweet = Tweet(
-      repliedTo: '',
+      repliedTo: repliedTo,
       retweetedBy: '',
       text: text,
       hashtags: hashtags,
@@ -93,13 +121,15 @@ class TweetController extends StateNotifier<bool> {
   void _shareTextTweet({
     required String text,
     required BuildContext context,
+    required String repliedTo,
+    required String repliedToUserId,
   }) async {
     state = true;
     final hashtags = _getHashtagsFromText(text);
     String link = _getLinkFromText(text);
     final user = _ref.read(currentUserDetailsProvider).value!;
     Tweet tweet = Tweet(
-      repliedTo: '',
+      repliedTo: repliedTo,
       retweetedBy: '',
       text: text,
       hashtags: hashtags,
