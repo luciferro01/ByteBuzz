@@ -66,7 +66,9 @@ class TweetCard extends ConsumerWidget {
                                     children: [
                                       SvgPicture.asset(
                                         AssetsConstants.retweetIcon,
-                                        color: Pallete.greyColor,
+                                        // color: Pallete.greyColor,
+                                        theme: const SvgTheme(
+                                            currentColor: Pallete.greyColor),
                                         height: 20,
                                       ),
                                       const SizedBox(width: 2),
@@ -221,12 +223,19 @@ class TweetCard extends ConsumerWidget {
                                               ? SvgPicture.asset(
                                                   AssetsConstants
                                                       .likeFilledIcon,
-                                                  color: Pallete.redColor,
+                                                  // color: Pallete.redColor,
+                                                  theme: const SvgTheme(
+                                                      currentColor:
+                                                          Pallete.redColor),
                                                 )
                                               : SvgPicture.asset(
                                                   AssetsConstants
                                                       .likeOutlinedIcon,
-                                                  color: Pallete.greyColor,
+                                                  // color: Pallete.greyColor,
+
+                                                  theme: const SvgTheme(
+                                                      currentColor:
+                                                          Pallete.greyColor),
                                                 );
                                         },
                                         likeCount: tweet.likes.length,

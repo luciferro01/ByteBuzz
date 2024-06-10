@@ -7,11 +7,11 @@ class TweetIconButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   const TweetIconButton({
-    Key? key,
+    super.key,
     required this.pathName,
     required this.text,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,9 @@ class TweetIconButton extends StatelessWidget {
         children: [
           SvgPicture.asset(
             pathName,
-            color: Pallete.greyColor,
+            // color: Pallete.greyColor,
+
+            theme: const SvgTheme(currentColor: Pallete.greyColor),
           ),
           Container(
             margin: const EdgeInsets.all(6),

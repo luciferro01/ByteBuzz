@@ -102,7 +102,6 @@ class TweetAPI implements ITweetAPI {
         collectionId: AppwriteConstants.tweetsCollection,
         documentId: tweet.id,
         data: {
-          'retweetedBy': tweet.retweetedBy,
           'reshareCount': tweet.reshareCount,
         },
       );
