@@ -58,26 +58,29 @@ class _HomeViewState extends State<HomeView> {
         items: [
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-                _page == 0
-                    ? AssetsConstants.homeFilledIcon
-                    : AssetsConstants.homeOutlinedIcon,
-                theme: const SvgTheme(currentColor: Pallete.whiteColor)
-                // color: Pallete.whiteColor,
-                ),
-          ),
-          BottomNavigationBarItem(
-            icon: SvgPicture.asset(AssetsConstants.searchIcon,
-                theme: const SvgTheme(currentColor: Pallete.whiteColor)
-                // color: Pallete.whiteColor,
-                ),
+              _page == 0
+                  ? AssetsConstants.homeFilledIcon
+                  : AssetsConstants.homeOutlinedIcon,
+              color: Pallete.whiteColor,
+              // theme: const SvgTheme(currentColor: Pallete.whiteColor)
+              // color: Pallete.whiteColor,
+            ),
           ),
           BottomNavigationBarItem(
             icon: SvgPicture.asset(
-                _page == 2
-                    ? AssetsConstants.notifFilledIcon
-                    : AssetsConstants.notifOutlinedIcon,
-                // color: Pallete.whiteColor,
-                theme: const SvgTheme(currentColor: Pallete.whiteColor)),
+              AssetsConstants.searchIcon,
+              // theme: const SvgTheme(currentColor: Pallete.whiteColor)
+              color: Pallete.whiteColor,
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              _page == 2
+                  ? AssetsConstants.notifFilledIcon
+                  : AssetsConstants.notifOutlinedIcon,
+              color: Pallete.whiteColor,
+              // theme: const SvgTheme(currentColor: Pallete.whiteColor),
+            ),
           ),
         ],
       ),

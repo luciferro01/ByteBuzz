@@ -14,7 +14,6 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   appwrite: ^12.0.3
-  flutter_svg: ^2.0.10+1
   flutter_riverpod: ^2.5.1
   fpdart: ^1.1.0
   image_picker: ^1.1.2
@@ -22,6 +21,7 @@ dependencies:
   timeago: ^3.6.1
   like_button: ^2.0.5
   any_link_preview: ^3.0.2
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
