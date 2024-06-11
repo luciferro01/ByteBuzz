@@ -6,13 +6,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:x_clone/apis/storage_api.dart';
 import 'package:x_clone/apis/tweet_api.dart';
 import 'package:x_clone/core/core.dart';
+import 'package:x_clone/core/enums/notification_type_enum.dart';
 import 'package:x_clone/features/auth/controller/auth_controller.dart';
+import 'package:x_clone/features/notifications/controller/notification_controller.dart';
 import 'package:x_clone/models/tweet_model.dart';
 import 'package:x_clone/models/user_model.dart';
 
 final tweetControllerProvider = StateNotifierProvider((ref) {
   return TweetController(
     ref: ref,
+    notificationController: ref.watch(notificationControllerProvider.notifier),
     storageAPI: ref.watch(storageAPIProvider),
     tweetAPI: ref.watch(tweetAPIProvider),
   );
@@ -36,11 +39,14 @@ class TweetController extends StateNotifier<bool> {
   final TweetAPI _tweetAPI;
   final StorageAPI _storageAPI;
   final Ref _ref;
-  TweetController({
-    required StorageAPI storageAPI,
-    required Ref ref,
-    required TweetAPI tweetAPI,
-  })  : _ref = ref,
+  final NotificationController _notificationController;
+  TweetController(
+      {required StorageAPI storageAPI,
+      required Ref ref,
+      required TweetAPI tweetAPI,
+      required NotificationController notificationController})
+      : _ref = ref,
+        _notificationController = notificationController,
         _storageAPI = storageAPI,
         _tweetAPI = tweetAPI,
         super(false);
@@ -167,7 +173,16 @@ class TweetController extends StateNotifier<bool> {
 
     tweet = tweet.copyWith(likes: likes);
     final res = await _tweetAPI.likeTweet(tweet);
-    res.fold((l) => null, (r) => null);
+    res.fold(
+        (l) => null,
+        (r) => {
+              _notificationController.createNotification(
+                text: '${user.name} liked your tweet!',
+                postId: tweet.id,
+                notificationType: NotificationType.like,
+                uid: tweet.uid,
+              )
+            });
   }
 
   void reshareTweet(
