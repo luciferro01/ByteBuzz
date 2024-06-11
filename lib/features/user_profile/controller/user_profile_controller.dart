@@ -6,12 +6,15 @@ import 'package:x_clone/apis/storage_api.dart';
 import 'package:x_clone/apis/tweet_api.dart';
 import 'package:x_clone/apis/user_api.dart';
 import 'package:x_clone/core/core.dart';
+import 'package:x_clone/core/enums/notification_type_enum.dart';
+import 'package:x_clone/features/notifications/controller/notification_controller.dart';
 import 'package:x_clone/models/tweet_model.dart';
 import 'package:x_clone/models/user_model.dart';
 
 final userProfileControllerProvider =
     StateNotifierProvider<UserProfileController, bool>((ref) {
   return UserProfileController(
+    notificationController: ref.watch(notificationControllerProvider.notifier),
     tweetAPI: ref.watch(tweetAPIProvider),
     storageAPI: ref.watch(storageAPIProvider),
     userAPI: ref.watch(userAPIProvider),
@@ -31,12 +34,15 @@ class UserProfileController extends StateNotifier<bool> {
   final TweetAPI _tweetAPI;
   final StorageAPI _storageAPI;
   final UserAPI _userAPI;
+  final NotificationController _notificationController;
   UserProfileController({
     required TweetAPI tweetAPI,
     required StorageAPI storageAPI,
     required UserAPI userAPI,
+    required NotificationController notificationController,
   })  : _tweetAPI = tweetAPI,
         _storageAPI = storageAPI,
+        _notificationController = notificationController,
         _userAPI = userAPI,
         super(false);
 
@@ -96,7 +102,14 @@ class UserProfileController extends StateNotifier<bool> {
     final res = await _userAPI.followUser(user);
     res.fold((l) => showSnackBar(context, l.message), (r) async {
       final res2 = await _userAPI.addToFollowing(currentUser);
-      res2.fold((l) => showSnackBar(context, l.message), (r) {});
+      res2.fold((l) => showSnackBar(context, l.message), (r) {
+        _notificationController.createNotification(
+          text: '${currentUser.name} followed you!',
+          postId: '',
+          notificationType: NotificationType.follow,
+          uid: user.uid,
+        );
+      });
     });
   }
 }
