@@ -19,6 +19,8 @@ abstract class IuserAPI {
   Future<List<model.Document>> searchUserByName(String name);
   FutureEitherVoid updateUserData(UserModel userModel);
   Stream<RealtimeMessage> getLatestUserProfileData();
+  FutureEitherVoid followUser(UserModel user);
+  FutureEitherVoid addToFollowing(UserModel user);
 }
 
 class UserAPI extends IuserAPI {
@@ -101,5 +103,53 @@ class UserAPI extends IuserAPI {
     return _realtime.subscribe([
       'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.usersCollection}.documents'
     ]).stream;
+  }
+
+  @override
+  FutureEitherVoid followUser(UserModel user) async {
+    try {
+      await _db.updateDocument(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.usersCollection,
+        documentId: user.uid,
+        data: {
+          'followers': user.followers,
+        },
+      );
+      return right(null);
+    } on AppwriteException catch (e, st) {
+      return left(
+        Failure(
+          e.message ?? 'Some unexpected error occurred',
+          st,
+        ),
+      );
+    } catch (e, st) {
+      return left(Failure(e.toString(), st));
+    }
+  }
+
+  @override
+  FutureEitherVoid addToFollowing(UserModel user) async {
+    try {
+      await _db.updateDocument(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.usersCollection,
+        documentId: user.uid,
+        data: {
+          'following': user.following,
+        },
+      );
+      return right(null);
+    } on AppwriteException catch (e, st) {
+      return left(
+        Failure(
+          e.message ?? 'Some unexpected error occurred',
+          st,
+        ),
+      );
+    } catch (e, st) {
+      return left(Failure(e.toString(), st));
+    }
   }
 }

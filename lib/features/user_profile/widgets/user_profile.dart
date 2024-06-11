@@ -63,7 +63,15 @@ class UserProfile extends ConsumerWidget {
                                   .push(MaterialPageRoute(builder: (context) {
                                 return const EditProfileView();
                               }));
-                            } else {}
+                            } else {
+                              ref
+                                  .read(userProfileControllerProvider.notifier)
+                                  .followUser(
+                                    user: user,
+                                    context: context,
+                                    currentUser: currentUser,
+                                  );
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
