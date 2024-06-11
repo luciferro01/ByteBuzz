@@ -8,6 +8,7 @@ import 'package:x_clone/features/auth/controller/auth_controller.dart';
 import 'package:x_clone/features/tweet/controller/tweet_controller.dart';
 import 'package:x_clone/features/tweet/widgets/tweet_card.dart';
 import 'package:x_clone/features/user_profile/controller/user_profile_controller.dart';
+import 'package:x_clone/features/user_profile/view/edit_profile_view.dart';
 import 'package:x_clone/features/user_profile/widgets/follow_count.dart';
 import 'package:x_clone/models/tweet_model.dart';
 import 'package:x_clone/models/user_model.dart';
@@ -58,6 +59,10 @@ class UserProfile extends ConsumerWidget {
                         child: OutlinedButton(
                           onPressed: () {
                             if (currentUser.uid == user.uid) {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (context) {
+                                return const EditProfileView();
+                              }));
                             } else {}
                           },
                           style: ElevatedButton.styleFrom(
