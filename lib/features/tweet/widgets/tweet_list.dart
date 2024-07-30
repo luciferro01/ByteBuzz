@@ -8,9 +8,17 @@ import 'package:x_clone/models/tweet_model.dart';
 
 class TweetList extends ConsumerWidget {
   const TweetList({super.key});
+  static int buildValue = 0;
+  static buildCount() {
+    buildValue++;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isLoading = false;
+    buildCount();
+    debugPrint("Tweet List : ${buildValue.toString()}");
+
     return ref.watch(getTweetsProvider).when(
           data: (tweets) {
             return ref.watch(getLatestTweetProvider).when(

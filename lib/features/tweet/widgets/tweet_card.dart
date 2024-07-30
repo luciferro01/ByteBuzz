@@ -24,10 +24,16 @@ class TweetCard extends ConsumerWidget {
     required this.tweet,
   });
 
+  static int buildValue = 0;
+  static buildCount() {
+    buildValue++;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    buildCount();
+    debugPrint("Tweet Card : ${buildValue.toString()}");
     final currentUser = ref.watch(currentUserDetailsProvider).value;
-
     return currentUser == null
         ? const SizedBox()
         : ref.watch(userDetailsProvider(tweet.uid)).when(

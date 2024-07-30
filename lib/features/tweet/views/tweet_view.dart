@@ -46,10 +46,17 @@ class _CreateTweetScreenState extends ConsumerState<CreateTweetScreen> {
     setState(() {});
   }
 
+  static int buildValue = 0;
+  static buildCount() {
+    buildValue++;
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserDetailsProvider).value;
     bool isLoading = false;
+    buildCount();
+    debugPrint("Tweet View : ${buildValue.toString()}");
 
     return Scaffold(
       appBar: AppBar(
